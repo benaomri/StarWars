@@ -27,9 +27,9 @@ class EwokTest {
      */
     @Test
     void acquire() {
-        assertFalse(EwokToTest.available);
+        assertFalse(EwokToTest.available,"Check if acquire changed to False");
         EwokToTest.acquire();
-        assertTrue(EwokToTest.available);
+        assertTrue(EwokToTest.available,"Check if acquire changed to True");
     }
 
     /**
@@ -38,8 +38,8 @@ class EwokTest {
      */
     @Test
     void release() {
-        assertTrue(EwokToTest.available);
+        assertTrue(EwokToTest.available,"Check if release changed to True");
         EwokToTest.release();
-        assertFalse(EwokToTest.available);
+        assertFalse(EwokToTest.available,"Check if release changed to False");
     }
 }

@@ -17,7 +17,7 @@ class FutureTest {
 
     @BeforeEach
     void setUp() {
-        futureToTest=new Future<>();
+        futureToTest=new Future<String>();
     }
 
     @AfterEach
@@ -31,8 +31,8 @@ class FutureTest {
     @Test
     void Future()
     {
-        assertFalse(futureToTest.isDone());
-        assertNull(futureToTest.get());
+        assertFalse(futureToTest.isDone(),"Check if Future isDone init  to False");
+        assertNull(futureToTest.get(),"Check if Future Result is init to Null");
     }
 
 
@@ -43,7 +43,7 @@ class FutureTest {
     void get() {
         String str="Result";
         futureToTest.resolve(str);
-        assertEquals(futureToTest.get(),str);
+        assertEquals(futureToTest.get(),str,"Check if the result we get Equal to the result we Send");
     }
 
 
@@ -53,11 +53,11 @@ class FutureTest {
      */
     @Test
     void resolve() {
-        assertFalse(futureToTest.isDone());
+        assertFalse(futureToTest.isDone(),"Check if isDone is False ");
         String str = "Result";
         futureToTest.resolve(str);
-        assertTrue(futureToTest.isDone());
-        assertEquals(futureToTest.get(),str);
+        assertTrue(futureToTest.isDone(),"Check if isDone is True ");
+        assertEquals(futureToTest.get(),str,"Check if the result we get Equal to the result we Send");
     }
 
 
@@ -67,9 +67,9 @@ class FutureTest {
      */
     @Test
     void isDone() {
-        assertFalse(futureToTest.isDone());
+        assertFalse(futureToTest.isDone(),"Check if isDone is False" );
          futureToTest.resolve("finished");
-        assertTrue(futureToTest.isDone());
+        assertTrue(futureToTest.isDone(),"Check if isDone is True ");
 
     }
     /**
@@ -78,11 +78,11 @@ class FutureTest {
     @Test
     void testGet() {
         String str = "Result";
-        assertFalse(futureToTest.isDone());
+        assertFalse(futureToTest.isDone(),"Check if isDone is False ");
         futureToTest.get(300,TimeUnit.MILLISECONDS);
-        assertFalse(futureToTest.isDone());
+        assertFalse(futureToTest.isDone(),"Check if isDone is False after try to get in the first time");
         futureToTest.resolve(str);
-        assertEquals(futureToTest.get(300,TimeUnit.MILLISECONDS),str);
+        assertEquals(futureToTest.get(300,TimeUnit.MILLISECONDS),str,"Check if the result we get Equal to the result we Send");
 
     }
 }
