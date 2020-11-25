@@ -8,19 +8,38 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EwokTest {
 
+    Ewok EwokToTest;
+
+
     @BeforeEach
     void setUp() {
+        EwokToTest=new Ewok() ;
     }
+
 
     @AfterEach
     void tearDown() {
     }
 
+    /**
+     * @PRE: available=false
+     * @POST: available=true
+     */
     @Test
     void acquire() {
+        assertFalse(EwokToTest.available);
+        EwokToTest.acquire();
+        assertTrue(EwokToTest.available);
     }
 
+    /**
+     * @PRE: available=true
+     * @POST: available=false
+     */
     @Test
     void release() {
+        assertTrue(EwokToTest.available);
+        EwokToTest.release();
+        assertFalse(EwokToTest.available);
     }
 }
