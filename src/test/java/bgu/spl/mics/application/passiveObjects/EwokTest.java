@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EwokTest {
 
-    Ewok EwokToTest;
+    private Ewok EwokToTest;
 
 
     @BeforeEach
