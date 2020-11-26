@@ -50,7 +50,6 @@ class MessageBusImplTest {
         MicroService MSTest1=new HanSoloMicroservice();
         messageBusToCheck.register(MSTest);
         Event<Boolean> Att= new AttackEvent();
-        MSTest1.subscribeEvent(Att,);
         MSTest.sendEvent(Att);
 
     }
