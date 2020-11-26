@@ -18,6 +18,8 @@ public class Future<T> {
 	 * This should be the the only public constructor in this class.
 	 */
 	public Future() {
+		isDone=false;
+		result=null;
 		
 	}
 	
@@ -31,14 +33,19 @@ public class Future<T> {
      */
 	public T get() {
 		
-        return null; 
+        return result;
 	}
 	
 	/**
      * Resolves the result of this Future object.
      */
 	public void resolve (T result) {
-		
+		isDone=true;
+		if(result!=null)
+			this.result=result;
+		else
+			throw new NullPointerException("You try to set Null result");
+
 	}
 	
 	/**
