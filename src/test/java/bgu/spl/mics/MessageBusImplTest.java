@@ -54,7 +54,7 @@ class MessageBusImplTest {
         try {
             assertEquals(messageBusToCheck.awaitMessage(testMS1),broad);
         } catch (InterruptedException e) {
-            assertFalse(true);
+            fail();
         }
 
 
@@ -69,7 +69,7 @@ class MessageBusImplTest {
         try {
             assertEquals(messageBusToCheck.awaitMessage(testMS1),Att);
         } catch (InterruptedException e) {
-            assertFalse(true);
+            fail();
         }
     }
 
