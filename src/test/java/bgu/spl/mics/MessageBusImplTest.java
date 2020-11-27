@@ -15,27 +15,28 @@ class MessageBusImplTest {
      * Before each test it will be initial
      */
     MessageBus messageBusToCheck;
-    MicroService testMS1;
-    MicroService testMS2;
+    MicroService testHanMS;
+    MicroService testC3MS;
 
     @BeforeEach
     void setUp() {
         messageBusToCheck=MessageBusImpl.getInstance();
-
-        testMS1=new HanSoloMicroservice();
-        testMS2=new C3POMicroservice();
+        testHanMS=new HanSoloMicroservice();
+        testC3MS=new C3POMicroservice();
     }
 
     @AfterEach
     void tearDown() {
     }
 
-    @Test
-    void subscribeBroadcast() {
-    }
 
     @Test
     void complete() {
+        Event Att=new AttackEvent();
+        Future<String> mission=messageBusToCheck.sendEvent(Att);
+        String result="Finished";
+        messageBusToCheck.complete(Att,result);
+        assertEquals(result,mission.get());
     }
 
     @Test
@@ -52,7 +53,7 @@ class MessageBusImplTest {
         testBroad.sendBroadcast(broad);
 
         try {
-            assertEquals(messageBusToCheck.awaitMessage(testMS1),broad);
+            assertEquals(messageBusToCheck.awaitMessage(testHanMS),broad);
         } catch (InterruptedException e) {
             fail();
         }
@@ -63,11 +64,11 @@ class MessageBusImplTest {
     @Test
     void sendEvent() {
         AttackEvent Att=new AttackEvent();
-        messageBusToCheck.subscribeEvent(Att.getClass(),testMS1);
+        messageBusToCheck.subscribeEvent(Att.getClass(),testHanMS);
         messageBusToCheck.sendEvent(Att);
-       testMS2.sendEvent(Att);
+       testC3MS.sendEvent(Att);
         try {
-            assertEquals(messageBusToCheck.awaitMessage(testMS1),Att);
+            assertEquals(messageBusToCheck.awaitMessage(testHanMS),Att);
         } catch (InterruptedException e) {
             fail();
         }
@@ -76,5 +77,25 @@ class MessageBusImplTest {
 
     @Test
     void awaitMessage() {
+        AttackEvent Att=new AttackEvent();
+        messageBusToCheck.subscribeEvent(Att.getClass(),testHanMS);
+        messageBusToCheck.sendEvent(Att);
+        //Checking if fetching from Q
+        try {
+            assertEquals(messageBusToCheck.awaitMessage(testHanMS),Att);
+
+        } catch (InterruptedException e) {
+           fail();
+        }
+
+        AttackEvent Att1=new AttackEvent();
+        try {
+            Message msg=messageBusToCheck.awaitMessage(testHanMS);
+            messageBusToCheck.sendEvent(Att1);
+            assertEquals(msg,Att1);
+        } catch (InterruptedException e) {
+            fail();
+        }
+
     }
 }
