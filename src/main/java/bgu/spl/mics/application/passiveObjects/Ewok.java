@@ -15,13 +15,14 @@ public class Ewok {
      * Acquires an Ewok
      */
     public void acquire() {
-		
+        this.available=false;
     }
 
     /**
      * release an Ewok
      */
     public void release() {
+        this.available=true;
     	
     }
 }

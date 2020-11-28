@@ -83,6 +83,5 @@ class FutureTest {
         assertFalse(futureToTest.isDone(),"Check if isDone is False after try to get in the first time");
         futureToTest.resolve(str);
         assertEquals(futureToTest.get(300,TimeUnit.MILLISECONDS),str,"Check if the result we get Equal to the result we Send");
-
     }
 }

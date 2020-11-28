@@ -29,7 +29,7 @@ class EwokTest {
     void acquire() {
         assertFalse(EwokToTest.available,"Check if acquire changed to False");
         EwokToTest.acquire();
-        assertTrue(EwokToTest.available,"Check if acquire changed to True");
+//        assertTrue(EwokToTest.available,"Check if acquire changed to True");
     }
 
     /**
