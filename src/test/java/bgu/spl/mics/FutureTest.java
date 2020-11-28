@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FutureTest {
     private  Future<String> futureToTest;
-
+    ///Check for omri
     @BeforeEach
     void setUp() {
         futureToTest=new Future<>();
