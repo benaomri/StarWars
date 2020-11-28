@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EwokTest {
-
+    /**
+     * Creating variables we use in all the tests
+     * Before each test it will be initial
+     */
     private Ewok EwokToTest;
 
 
