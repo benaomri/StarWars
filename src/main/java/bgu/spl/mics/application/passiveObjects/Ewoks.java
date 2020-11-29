@@ -12,10 +12,15 @@ import java.util.Vector;
  * You can add ONLY private methods and fields to this class.
  */
 public class Ewoks {
+    //Fields
     private  int size;
     private Vector<Ewok> EwokList;
 
-
+    /**
+     * Constructor
+     * get  @param   numberOfEwoks
+     * Initialize size and Vector<Ewok>
+     */
     public Ewoks(int numberOfEwoks)
     {
         EwokList=new Vector<>();
@@ -26,25 +31,4 @@ public class Ewoks {
             EwokList.add(newEwok);
         }
     }
-
-    private boolean isAvailable(Ewok ewok)
-    {
-        return ewok.available;
-    }
-
-    private  void acquire(Ewok ewok)
-    {
-        int index=ewok.serialNumber-1;
-        EwokList.get(index).acquire();
-    }
-
-    private void release(Ewok ewok)
-    {
-        int index=ewok.serialNumber-1;
-        EwokList.get(index).release();
-
-    }
-
-
-
 }
