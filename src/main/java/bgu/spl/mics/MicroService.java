@@ -19,7 +19,7 @@ package bgu.spl.mics;
  * <p>
  */
 public abstract class MicroService implements Runnable { 
-
+    //check
     private String name;
 
     /**
