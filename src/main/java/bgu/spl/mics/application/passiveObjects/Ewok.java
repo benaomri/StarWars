@@ -10,18 +10,31 @@ public class Ewok {
 	int serialNumber;
 	boolean available;
 	
-  
+    public Ewok(int serialNumber)
+    {
+        this.serialNumber=serialNumber;
+        this.available=true;
+    }
     /**
      * Acquires an Ewok
+     * @PRE: available is true
+     * @POST:  available is false
      */
-    public void acquire() {
+    public void acquire(){
+
+        if(!available)
+            throw  new UnsupportedOperationException("Ewok is not available ");
         this.available=false;
     }
 
     /**
      * release an Ewok
+     *  @PRE: available is false
+     *  @POST:  available is true
      */
     public void release() {
+        if(available)
+            throw  new UnsupportedOperationException("Ewok is available ");
         this.available=true;
     	
     }
