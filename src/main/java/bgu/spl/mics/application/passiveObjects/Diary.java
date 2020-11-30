@@ -1,6 +1,8 @@
 package bgu.spl.mics.application.passiveObjects;
 
 
+import bgu.spl.mics.MessageBusImpl;
+
 /**
  * Passive data-object representing a Diary - in which the flow of the battle is recorded.
  * We are going to compare your recordings with the expected recordings, and make sure that your output makes sense.
@@ -18,12 +20,22 @@ public class Diary {
     private long C3POTerminate;
     private long R2D2Terminate;
     private long LandoTerminate;
+    private  static Diary instance=null;
+
 
     /**
      * Init numberOfAttacks to zero
      */
-    public Diary() {
+    private Diary() {
         numberOfAttacks = 0;
+    }
+
+    public static Diary getInstance(){
+        if(instance==null)
+        {
+            instance=new Diary();
+        }
+        return instance;
     }
 
     /**
