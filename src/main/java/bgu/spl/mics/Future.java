@@ -31,7 +31,7 @@ public class Future<T> {
      * @return return the result of type T if it is available, if not wait until it is available.
      * 	       
      */
-	public  T get() {//todo: check is bloocking methods
+	public synchronized T  get() {
 		
         return result;
 	}

@@ -1,14 +1,19 @@
 package bgu.spl.mics;
 
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * The {@link MessageBusImpl class is the implementation of the MessageBus interface.
  * Write your implementation here!
  * Only private fields and methods can be added to this class.
  */
-public class MessageBusImpl implements MessageBus {
+public class MessageBusImpl<microServiceVector> implements MessageBus {
 
 	private static int size;
 	private  static MessageBusImpl instance=null;
+	private Vector microServiceVector;
+	private ConcurrentHashMap<Message, Vector> massageBus;
 
 
 	/**
@@ -16,7 +21,8 @@ public class MessageBusImpl implements MessageBus {
 	 */
 	private MessageBusImpl()
 	{
-		size=0;
+		massageBus= new ConcurrentHashMap<>();
+
 	}
 
 	/**
@@ -35,12 +41,13 @@ public class MessageBusImpl implements MessageBus {
 
 	@Override
 	public <T> void subscribeEvent(Class<? extends Event<T>> type, MicroService m) {
+		massageBus.get(type).add(m);
 		
 	}
 
 	@Override
 	public void subscribeBroadcast(Class<? extends Broadcast> type, MicroService m) {
-		
+		massageBus.get(type).add(m);
     }
 
 	@Override @SuppressWarnings("unchecked")
