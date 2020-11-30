@@ -15,13 +15,15 @@ public class Ewoks {
     //Fields
     private  int size;
     private Vector<Ewok> EwokList;
+    private  static Ewoks instance=null;
+
 
     /**
      * Constructor
      * get  @param   numberOfEwoks
      * Initialize size and Vector<Ewok>
      */
-    public Ewoks(int numberOfEwoks)
+    private Ewoks(int numberOfEwoks)
     {
         EwokList=new Vector<>();
         size=numberOfEwoks;
@@ -30,5 +32,14 @@ public class Ewoks {
             Ewok newEwok=new Ewok(i);
             EwokList.add(newEwok);
         }
+    }
+
+
+    public static Ewoks getInstance(int numberOfEwoks){
+        if(instance==null)
+        {
+            instance=new Ewoks(numberOfEwoks);
+        }
+        return instance;
     }
 }
