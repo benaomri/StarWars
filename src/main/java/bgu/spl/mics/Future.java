@@ -31,7 +31,7 @@ public class Future<T> {
      * @return return the result of type T if it is available, if not wait until it is available.
      * 	       
      */
-	public T get() {
+	public  T get() {//todo: check is bloocking methods
 		
         return result;
 	}
@@ -40,12 +40,12 @@ public class Future<T> {
      * Resolves the result of this Future object.
      */
 	public void resolve (T result) {
-		isDone=true;
-		if(result!=null)
+		if(result!=null){
+			isDone=true;
 			this.result=result;
+		}
 		else
 			throw new NullPointerException("You try to set Null result");
-
 	}
 	
 	/**
@@ -67,8 +67,12 @@ public class Future<T> {
      *         elapsed, return null.
      */
 	public T get(long timeout, TimeUnit unit) {
-		
+		timeout=unit.toMillis(timeout)+System.currentTimeMillis();//calculate time out with computer time
+		while(timeout-System.currentTimeMillis()>0){
+			if (get()!=null){
+				return get();
+			}
+		}
         return null;
 	}
-
 }
