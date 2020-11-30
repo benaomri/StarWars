@@ -22,7 +22,7 @@ package bgu.spl.mics;
  */
 public abstract class MicroService  implements Runnable {
     private final String name;
-    
+    private Message ms;
 
     /**
      * @param name the micro-service name (used mainly for debugging purposes -
@@ -55,6 +55,7 @@ public abstract class MicroService  implements Runnable {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
+        callback.call((E)this.ms);//probebly not right
         MessageBusImpl.getInstance().subscribeEvent(type,this);
     	
     }
@@ -154,6 +155,9 @@ public abstract class MicroService  implements Runnable {
      */
     @Override
     public final void run() {
+        MessageBusImpl.getInstance().register(this);
+
+
     	
     }
 

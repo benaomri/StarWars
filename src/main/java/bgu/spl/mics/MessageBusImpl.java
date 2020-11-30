@@ -13,7 +13,7 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	private static int size;
 	private  static MessageBusImpl instance=null;
 	private Vector microServiceVector;
-	private ConcurrentHashMap<Message, Vector> massageBus;
+	private ConcurrentHashMap<String, Vector> massageBus;
 
 
 	/**
