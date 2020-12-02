@@ -14,8 +14,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class MessageBusImpl<microServiceVector> implements MessageBus {
 
 	private Vector microServiceVector;
-	private ConcurrentHashMap<String, Vector> massageBusMS;
-	private ConcurrentHashMap<Event, Vector> massageBusEV;
+	private ConcurrentHashMap<String, Vector<Message>> massageBusMS;
+	private ConcurrentHashMap<Event, Vector<String>> massageBusEV;
 	private ConcurrentHashMap<Event, Future> massageBusFuture;
 	private BlockingDeque bQueue;
 
@@ -75,14 +75,14 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	
 	@Override
 	public <T> Future sendEvent(Event<T> e) {
-		Vector toRoundRobi=massageBusEV.get(e);//
-		round_robin(e,toRoundRobi);
+		Vector<String> toRoundRobin=massageBusEV.get(e);//
+		round_robin(e,toRoundRobin);
         return massageBusFuture.get(e);
 	}
 
 	@Override
 	public void register(MicroService m) {
-		massageBusMS.put(m.getName(),new Vector());
+		massageBusMS.put(m.getName(),new Vector<Message>());
 	}
 
 	@Override
@@ -91,12 +91,22 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	}
 
 	@Override
-	public Message awaitMessage(MicroService m) throws InterruptedException {
-		
-		return null;
+	public synchronized Message awaitMessage(MicroService m) throws InterruptedException {
+		if(!checkIfRegister(m))
+			throw new IllegalStateException(m.getName()+"is not register");
+
+		while(massageBusMS.get(m.getName()).isEmpty()){//wait until is massage to take
+			wait();
+		}
+		return  massageBusMS.get(m.getName()).remove(0);//return the first massage in queue
 	}
+
 	private String  round_robin(Event<T>e,Vector microSVector){
 		//todo:think about round robin logic
 		this.subscribeEvent();
+	}
+
+	private boolean checkIfRegister(MicroService m){
+		return massageBusMS.containsKey(m.getName());
 	}
 }
