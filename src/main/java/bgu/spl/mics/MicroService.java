@@ -155,15 +155,20 @@ public abstract class MicroService  implements Runnable {
      */
     @Override
     public final void run() {
+        boolean keepRun=true;
+        initialize();
         MessageBusImpl.getInstance().register(this);
-        while(/*think about it*/){
+        while(keepRun){
 
                 Message massageFromQ=MessageBusImpl.getInstance().awaitMessage(this);
+                CallbackImpl callback=new CallbackImpl();
+                callback.call(massageFromQ);
+                complete(massageFromQ,?);
+                //todo broadcast that change "keepRun" to false
 
 
         }
-
-
+        terminate();
 
     	
     }

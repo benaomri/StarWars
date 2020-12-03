@@ -69,14 +69,21 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		//todo a loop that get all micro service that written in massgeBusEvent and add the 'b' to massgeBusMS
+
+		Vector<String>broadcastMicroS=massageBusEV.get(b);//get all microService that subscribe to the broadCast
+		for(String s:broadcastMicroS){//insert to each microservice the broadcast
+			massageBusMS.get(s).add(b);
+		}
+		notifyAll();//notify to all thered that is their new massage
 	}
 
 	
 	@Override
-	public <T> Future sendEvent(Event<T> e) {
+	public synchronized <T> Future sendEvent(Event<T> e) {
 		Vector<String> toRoundRobin=massageBusEV.get(e);//
-		round_robin(e,toRoundRobin);
+		String chosenMicro= round_robin(e,toRoundRobin);//send to round robin all microservice that subscribe to this event
+		massageBusMS.get(chosenMicro).add(e);
+		notifyAll();
         return massageBusFuture.get(e);
 	}
 
@@ -102,8 +109,11 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	}
 
 	private String  round_robin(Event<T>e,Vector microSVector){
+		String microName="";
 		//todo:think about round robin logic
-		this.subscribeEvent();
+
+
+		return microName;
 	}
 
 	private boolean checkIfRegister(MicroService m){
