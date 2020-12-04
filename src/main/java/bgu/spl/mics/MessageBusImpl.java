@@ -1,5 +1,7 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.passiveObjects.Diary;
+
 import java.util.Vector;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +14,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Only private fields and methods can be added to this class.
  */
 public class MessageBusImpl<microServiceVector> implements MessageBus {
+	private  static MessageBusImpl instance=null;//singleton expression
 
 	private Vector microServiceVector;
 	private ConcurrentHashMap<String, Vector<Message>> massageBusMS;
@@ -109,9 +112,9 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	}
 
 	private String  round_robin(Event<T>e,Vector microSVector){
-		String microName="";
-		//todo:think about round robin logic
-
+		String microName=massageBusEV.get(e).firstElement();
+		massageBusEV.get(e).remove(0);
+		massageBusEV.get(e).add(microName);//add to the end of the quque
 
 		return microName;
 	}

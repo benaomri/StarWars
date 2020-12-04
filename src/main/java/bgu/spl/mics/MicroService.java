@@ -156,7 +156,7 @@ public abstract class MicroService  implements Runnable {
     @Override
     public final void run() {
         boolean keepRun=true;
-        initialize();
+        initialize();//each init call suscribe event/broadcast
         MessageBusImpl.getInstance().register(this);
         while(keepRun){
 
