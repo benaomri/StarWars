@@ -67,8 +67,14 @@ public class Future<T> {
      *         elapsed, return null.
      */
 	public T get(long timeout, TimeUnit unit) {
-		
-        return null;
+
+		timeout=unit.toMillis(timeout)+System.currentTimeMillis();//calculate time out with computer time
+		while(timeout-System.currentTimeMillis()>0){
+			if (get()!=null){
+				return get();
+			}
+		}
+		return null;
 	}
 
 }
