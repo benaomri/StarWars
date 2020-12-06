@@ -32,7 +32,14 @@ public class Future<T> {
      * 	       
      */
 	public synchronized T  get() {
-		
+		while (!isDone)
+		{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+
+			}
+		}
         return result;
 	}
 	

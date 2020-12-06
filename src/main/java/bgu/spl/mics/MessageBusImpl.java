@@ -7,6 +7,8 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import static java.lang.Thread.sleep;
+
 
 /**
  * The {@link MessageBusImpl class is the implementation of the MessageBus interface.
@@ -116,7 +118,6 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 		String microName=massageBusEV.get(e).firstElement();
 		massageBusEV.get(e).remove(0);
 		massageBusEV.get(e).add(microName);//add to the end of the quque
-
 		return microName;
 	}
 
