@@ -16,7 +16,7 @@ class EwokTest {
 
     @BeforeEach
     void setUp() {
-        EwokToTest=new Ewok() ;
+        //EwokToTest=new Ewok() ;
     }
 
 

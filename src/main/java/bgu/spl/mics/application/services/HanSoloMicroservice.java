@@ -1,7 +1,15 @@
 package bgu.spl.mics.application.services;
 
 
+import bgu.spl.mics.CallbackImpl;
+import bgu.spl.mics.Message;
+import bgu.spl.mics.Event;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.AttackEvent;
+import bgu.spl.mics.application.messages.TerminateBroadCast;
+import bgu.spl.mics.application.passiveObjects.Ewoks;
+
+import java.util.Map;
 
 /**
  * HanSoloMicroservices is in charge of the handling {@link AttackEvents}.
@@ -12,6 +20,8 @@ import bgu.spl.mics.MicroService;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class HanSoloMicroservice extends MicroService {
+    private Map<Message, CallbackImpl> callbackMap;
+
 
     public HanSoloMicroservice() {
         super("Han");
@@ -20,6 +30,9 @@ public class HanSoloMicroservice extends MicroService {
 
     @Override
     protected void initialize() {
+        subscribeEvent(AttackEvent.class,c -> wait(T));
+        subscribeBroadcast(TerminateBroadCast.class,c -> terminate());
+
 
     }
 }

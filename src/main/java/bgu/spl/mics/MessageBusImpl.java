@@ -17,7 +17,7 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	private  static MessageBusImpl instance=null;//singleton expression
 
 	private Vector microServiceVector;
-	private ConcurrentHashMap<String, Vector<Message>> massageBusMS;
+	private ConcurrentHashMap<String, Vector<Class<? extends Message>>> massageBusMS;
 	private ConcurrentHashMap<Event, Vector<String>> massageBusEV;
 	private ConcurrentHashMap<Event, Future> massageBusFuture;
 	private BlockingDeque bQueue;
@@ -75,7 +75,7 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 
 		Vector<String>broadcastMicroS=massageBusEV.get(b);//get all microService that subscribe to the broadCast
 		for(String s:broadcastMicroS){//insert to each microservice the broadcast
-			massageBusMS.get(s).add(b);
+			massageBusMS.get(s).add(b.getClass());
 		}
 		notifyAll();//notify to all thered that is their new massage
 	}
@@ -85,14 +85,14 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	public synchronized <T> Future sendEvent(Event<T> e) {
 		Vector<String> toRoundRobin=massageBusEV.get(e);//
 		String chosenMicro= round_robin(e,toRoundRobin);//send to round robin all microservice that subscribe to this event
-		massageBusMS.get(chosenMicro).add(e);
+		massageBusMS.get(chosenMicro).add(e.getClass());
 		notifyAll();
         return massageBusFuture.get(e);
 	}
 
 	@Override
 	public void register(MicroService m) {
-		massageBusMS.put(m.getName(),new Vector<Message>());
+		massageBusMS.put(m.getName(),new Vector<Class<? extends Message>>());
 	}
 
 	@Override
@@ -108,10 +108,11 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 		while(massageBusMS.get(m.getName()).isEmpty()){//wait until is massage to take
 			wait();
 		}
-		return  massageBusMS.get(m.getName()).remove(0);//return the first massage in queue
+		return null;
+		//return  massageBusMS.get(m.getName()).remove(0);//return the first massage in queue
 	}
 
-	private String  round_robin(Event<T>e,Vector microSVector){
+	private String  round_robin(Event e,Vector microSVector){
 		String microName=massageBusEV.get(e).firstElement();
 		massageBusEV.get(e).remove(0);
 		massageBusEV.get(e).add(microName);//add to the end of the quque

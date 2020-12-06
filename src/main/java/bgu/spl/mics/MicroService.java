@@ -1,6 +1,8 @@
 package bgu.spl.mics;
 
 
+import javax.security.auth.callback.CallbackHandler;
+import java.util.Map;
 
 /**
  * The MicroService is an abstract class that any micro-service in the system
@@ -22,7 +24,8 @@ package bgu.spl.mics;
  */
 public abstract class MicroService  implements Runnable {
     private final String name;
-    private Message ms;
+    private Map<Message, CallbackImpl> callbackMap;
+
 
     /**
      * @param name the micro-service name (used mainly for debugging purposes -
@@ -156,14 +159,20 @@ public abstract class MicroService  implements Runnable {
     @Override
     public final void run() {
         boolean keepRun=true;
-        initialize();//each init call suscribe event/broadcast
+        Future futureToget;
         MessageBusImpl.getInstance().register(this);
+        initialize();//each init call suscribe event/broadcast
         while(keepRun){
 
-                Message massageFromQ=MessageBusImpl.getInstance().awaitMessage(this);
-                CallbackImpl callback=new CallbackImpl();
-                callback.call(massageFromQ);
-                complete(massageFromQ,?);
+            Message massageFromQ= null;
+            try {
+                massageFromQ = MessageBusImpl.getInstance().awaitMessage(this);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            callbackMap.get(massageFromQ).call(massageFromQ);
+                //futureToget=MessageBusImpl.getInstance().getFuture;
+                //complete(massageFromQ,);
                 //todo broadcast that change "keepRun" to false
 
 

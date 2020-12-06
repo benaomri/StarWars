@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.passiveObjects;
 
 
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -41,5 +42,11 @@ public class Ewoks {
             instance=new Ewoks(numberOfEwoks);
         }
         return instance;
+
+    }
+    public synchronized Ewok getEwokForAtt(List<Integer> serial){
+        return null;
+
     }
 }
+

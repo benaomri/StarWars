@@ -10,5 +10,10 @@ public class AttackEvent implements Event<Boolean> {
         duration=otherDuration;
         serials.addAll(otherSerials);
     }
+//   public AttackEvent(){
+//        duration=0;
+//        serials=null;
+//   }
+
 	
 }

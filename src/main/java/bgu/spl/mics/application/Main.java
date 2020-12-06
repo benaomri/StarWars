@@ -17,19 +17,20 @@ import java.io.IOException;
  */
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 
-		Init(path);
+		Init("/home/spl211/IdeaProjects/StarWars/src/main/input.json");
 		Simulate();
 		Gson out = outGson();
-		lando.start();
+
 
 	}
 
 
 	public static void Init(String path) throws IOException {
 		InputApp input= JsonInputReader.getInputFromJson(path);
+		System.out.println(input.getAttacks().);
 
 	}
 

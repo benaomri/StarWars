@@ -3,6 +3,8 @@ package bgu.spl.mics.application.services;
 import bgu.spl.mics.Callback;
 import bgu.spl.mics.CallbackImpl;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.AttackEvent;
+import bgu.spl.mics.application.messages.TerminateBroadCast;
 
 
 /**
@@ -14,13 +16,17 @@ import bgu.spl.mics.MicroService;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class C3POMicroservice extends MicroService {
-	
+	private long attTime;
     public C3POMicroservice() {
         super("C3PO");
     }
 
     @Override
     protected void initialize() {
+        subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
+        subscribeEvent(AttackEvent.class, c -> wait(T));
+
+
 
     }
 
