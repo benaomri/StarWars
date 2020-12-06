@@ -20,7 +20,6 @@ import java.util.Map;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class HanSoloMicroservice extends MicroService {
-    private Map<Message, CallbackImpl> callbackMap;
 
 
     public HanSoloMicroservice() {
@@ -30,7 +29,7 @@ public class HanSoloMicroservice extends MicroService {
 
     @Override
     protected void initialize() {
-        subscribeEvent(AttackEvent.class,c -> wait(T));
+        subscribeEvent(AttackEvent.class, AttackEvent::att);
         subscribeBroadcast(TerminateBroadCast.class,c -> terminate());
 
 

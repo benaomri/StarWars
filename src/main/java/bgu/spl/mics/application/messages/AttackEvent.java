@@ -4,16 +4,16 @@ import bgu.spl.mics.Event;
 import java.util.List;
 
 public class AttackEvent implements Event<Boolean> {
-    int duration;
+    long duration;
     List<Integer>serials;
-    public AttackEvent(int otherDuration,List<Integer>otherSerials){
+    public AttackEvent(long otherDuration,List<Integer>otherSerials){
         duration=otherDuration;
         serials.addAll(otherSerials);
     }
-//   public AttackEvent(){
-//        duration=0;
-//        serials=null;
-//   }
+    public void att() throws InterruptedException {
+        wait(duration);
+    }
+
 
 	
 }

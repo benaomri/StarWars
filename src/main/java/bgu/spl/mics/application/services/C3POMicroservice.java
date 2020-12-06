@@ -16,7 +16,6 @@ import bgu.spl.mics.application.messages.TerminateBroadCast;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class C3POMicroservice extends MicroService {
-	private long attTime;
     public C3POMicroservice() {
         super("C3PO");
     }
@@ -24,8 +23,7 @@ public class C3POMicroservice extends MicroService {
     @Override
     protected void initialize() {
         subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
-        subscribeEvent(AttackEvent.class, c -> wait(T));
-
+        subscribeEvent(AttackEvent.class, AttackEvent::att);
 
 
     }
