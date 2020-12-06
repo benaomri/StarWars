@@ -48,5 +48,10 @@ public class Ewoks {
         return null;
 
     }
+
+    public void PrintEwoks()
+    {
+        System.out.println(EwokList);
+    }
 }
 

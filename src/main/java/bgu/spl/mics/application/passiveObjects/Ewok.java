@@ -38,4 +38,9 @@ public class Ewok {
         this.available=true;
 
     }
+
+    public String toString()
+    {
+        return "Ewok: "+serialNumber+" is available: "+available;
+    }
 }
