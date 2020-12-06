@@ -2,8 +2,14 @@ package bgu.spl.mics.application.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
+import bgu.spl.mics.CallbackImpl;
+import bgu.spl.mics.Message;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.AttackEvent;
+import bgu.spl.mics.application.messages.TerminateBroadCast;
 import bgu.spl.mics.application.passiveObjects.Attack;
 
 /**
@@ -16,7 +22,9 @@ import bgu.spl.mics.application.passiveObjects.Attack;
  */
 public class LeiaMicroservice extends MicroService {
 	private Attack[] attacks;
-	
+    private Map<Message, CallbackImpl> callbackMap;
+
+
     public LeiaMicroservice(Attack[] attacks) {
         super("Leia");
 		this.attacks = attacks;
@@ -24,6 +32,17 @@ public class LeiaMicroservice extends MicroService {
 
     @Override
     protected void initialize() {
-    	
+        subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
+        sendAttEvent();
+
+
+
+    }
+    private void sendAttEvent(){
+        for(Attack att:attacks){
+            sendEvent(new AttackEvent(att.getDuration(),att.getSerials()));
+        }
+
+
     }
 }
