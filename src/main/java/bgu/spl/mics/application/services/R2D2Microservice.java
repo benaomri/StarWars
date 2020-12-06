@@ -24,7 +24,7 @@ public class R2D2Microservice extends MicroService {
     @Override
     protected void initialize() {
         subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
-        subscribeEvent(DacteivationEvent.class,c -> wait(duration));
+        subscribeEvent(DacteivationEvent.class,c -> Thread.sleep(duration));
 
 
     }

@@ -21,7 +21,7 @@ public class LandoMicroservice  extends MicroService {
     @Override
     protected void initialize() {
         subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
-        subscribeEvent(BombDestroyerEvent.class, c -> wait(duration));
+        subscribeEvent(BombDestroyerEvent.class, c -> Thread.sleep(duration));
 
     }
 }

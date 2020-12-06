@@ -11,7 +11,7 @@ public class AttackEvent implements Event<Boolean> {
         serials.addAll(otherSerials);
     }
     public void att() throws InterruptedException {
-        wait(duration);
+        Thread.sleep(duration);
     }
 
 
