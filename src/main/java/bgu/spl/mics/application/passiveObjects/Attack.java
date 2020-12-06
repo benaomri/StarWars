@@ -27,4 +27,12 @@ public class Attack {
     public int getDuration() {
         return duration;
     }
+
+    @Override
+    public String toString() {
+        return "Attack{" +
+                "serials=" + serials +
+                ", duration=" + duration +
+                '}';
+    }
 }

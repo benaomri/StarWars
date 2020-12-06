@@ -1,9 +1,7 @@
 package bgu.spl.mics.application;
 
 import bgu.spl.mics.MessageBusImpl;
-import bgu.spl.mics.application.passiveObjects.Ewoks;
-import bgu.spl.mics.application.passiveObjects.InputApp;
-import bgu.spl.mics.application.passiveObjects.JsonInputReader;
+import bgu.spl.mics.application.passiveObjects.*;
 import bgu.spl.mics.application.services.*;
 import com.google.gson.Gson;
 
@@ -23,6 +21,7 @@ public class Main {
 
 		Init("/home/spl211/IdeaProjects/StarWars/src/main/input.json");
 		ewoks.PrintEwoks();
+
 
 
 //		Simulate();
@@ -53,6 +52,8 @@ public class Main {
 	}
 
 	public static Gson outGson() {
-		return null;
+		Gson outGson=null;
+
+		return outGson;
 	}
 }
