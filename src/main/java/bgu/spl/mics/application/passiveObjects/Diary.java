@@ -9,7 +9,7 @@ package bgu.spl.mics.application.passiveObjects;
  */
 public class Diary {
     //Fields
-    private int numberOfAttacks;
+    private int totalAttacks;
     private long HanSoloFinish;
     private long C3POFinish;
     private long R2D2Deactivate;
@@ -18,6 +18,7 @@ public class Diary {
     private long C3POTerminate;
     private long R2D2Terminate;
     private long LandoTerminate;
+
     private  static Diary instance=null;
 
 
@@ -25,7 +26,7 @@ public class Diary {
      * Init numberOfAttacks to zero
      */
     private Diary() {
-        numberOfAttacks = 0;
+        totalAttacks = 0;
     }
 
     public static Diary getInstance(){
@@ -41,8 +42,11 @@ public class Diary {
      */
     public void incAtt()
     {
-        numberOfAttacks++;
+        totalAttacks++;
     }
+
+
+
 
     /**
      *
@@ -180,5 +184,10 @@ public class Diary {
     public void setHanSoloFinish(long hanSoloFinish) {
         HanSoloFinish = hanSoloFinish;
     }
+
+    public int getNumberOfAttacks() {
+        return totalAttacks;
+    }
+
 
 }

@@ -5,7 +5,9 @@ import bgu.spl.mics.application.passiveObjects.*;
 import bgu.spl.mics.application.services.*;
 import com.google.gson.Gson;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 /** This is the Main class of the application. You should parse the input file,
  * create the different components of the application, and run the system.
@@ -25,7 +27,8 @@ public class Main {
 
 
 //		Simulate();
-		Gson out = outGson();
+
+		outGson();
 
 
 	}
@@ -51,9 +54,18 @@ public class Main {
 
 	}
 
-	public static Gson outGson() {
-		Gson outGson=null;
+	public static void outGson() {
 
-		return outGson;
+
+		try {
+			Gson outGson=new Gson();
+			Diary diary=Diary.getInstance();
+			Writer writer=new FileWriter("/home/spl211/IdeaProjects/StarWars/src/main/output.json");
+			outGson.toJson(diary,writer);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

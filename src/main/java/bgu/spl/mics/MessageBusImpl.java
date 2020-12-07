@@ -18,6 +18,12 @@ import static java.lang.Thread.sleep;
 public class MessageBusImpl<microServiceVector> implements MessageBus {
 	private  static MessageBusImpl instance=null;//singleton expression
 
+	/**
+	 * We Use 3 Maps:
+	 * 1. Key: MS String, val: Messeges vector
+	 * 2. Key: Event , val: MS string that subscribe it
+	 * 3. Key: Event , val: Future
+	 */
 	private Vector microServiceVector;
 	private ConcurrentHashMap<String, Vector<Class<? extends Message>>> massageBusMS;
 	private ConcurrentHashMap<Event, Vector<String>> massageBusEV;
