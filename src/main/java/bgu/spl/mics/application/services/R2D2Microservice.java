@@ -3,6 +3,7 @@ package bgu.spl.mics.application.services;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.DacteivationEvent;
 import bgu.spl.mics.application.messages.TerminateBroadCast;
+import bgu.spl.mics.application.passiveObjects.Diary;
 
 /**
  * R2D2Microservices is in charge of the handling {@link DeactivationEvent}.
@@ -26,5 +27,10 @@ public class R2D2Microservice extends MicroService {
         subscribeEvent(DacteivationEvent.class,c -> Thread.sleep(duration));
 
 
+    }
+    @Override
+    protected void close()
+    {
+        Diary.getInstance().setR2D2Terminate();
     }
 }

@@ -8,6 +8,7 @@ import bgu.spl.mics.Event;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.AttackEvent;
 import bgu.spl.mics.application.messages.TerminateBroadCast;
+import bgu.spl.mics.application.passiveObjects.Diary;
 import bgu.spl.mics.application.passiveObjects.Ewoks;
 
 import java.util.Map;
@@ -34,5 +35,10 @@ public class HanSoloMicroservice extends MicroService {
         subscribeBroadcast(TerminateBroadCast.class,c -> terminate());
         Main.CDL.countDown();
 
+    }
+    @Override
+    protected void close()
+    {
+        Diary.getInstance().setHanSoloTerminate();
     }
 }

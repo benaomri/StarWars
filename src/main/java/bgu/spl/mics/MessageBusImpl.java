@@ -124,7 +124,6 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 		while(massageBusMS.get(m.getName()).isEmpty()){//wait until is massage to take
 			wait();
 		}
-//		return null;
 		return  massageBusMS.get(m.getName()).get(0);
 	}
 

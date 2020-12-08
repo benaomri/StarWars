@@ -7,6 +7,7 @@ import bgu.spl.mics.CallbackImpl;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.AttackEvent;
 import bgu.spl.mics.application.messages.TerminateBroadCast;
+import bgu.spl.mics.application.passiveObjects.Diary;
 
 
 /**
@@ -29,6 +30,11 @@ public class C3POMicroservice extends MicroService {
         Main.CDL.countDown();
 
 
+    }
+    @Override
+    protected void close()
+    {
+        Diary.getInstance().setC3POTerminate();
     }
 
 }

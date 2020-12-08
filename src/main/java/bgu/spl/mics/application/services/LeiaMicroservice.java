@@ -11,6 +11,7 @@ import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.AttackEvent;
 import bgu.spl.mics.application.messages.TerminateBroadCast;
 import bgu.spl.mics.application.passiveObjects.Attack;
+import bgu.spl.mics.application.passiveObjects.Diary;
 
 /**
  * LeiaMicroservices Initialized with Attack objects, and sends them as  {@link AttackEvents}.
@@ -44,5 +45,10 @@ public class LeiaMicroservice extends MicroService {
         }
 
 
+    }
+    @Override
+    protected void close()
+    {
+        Diary.getInstance().setLeiaTerminate();
     }
 }

@@ -178,4 +178,12 @@ public abstract class MicroService  implements Runnable {
 
     }
 
+    /**
+     * The function that close the microservice
+     */
+    protected void close()
+    {
+
+    }
+
 }
