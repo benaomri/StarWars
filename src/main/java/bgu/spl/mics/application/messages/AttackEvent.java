@@ -1,6 +1,6 @@
 package bgu.spl.mics.application.messages;
 import bgu.spl.mics.Event;
-
+import  bgu.spl.mics.application.passiveObjects.Diary;
 import java.util.List;
 
 public class AttackEvent implements Event<Boolean> {
@@ -18,6 +18,7 @@ public class AttackEvent implements Event<Boolean> {
     }
     public void att() throws InterruptedException {
         Thread.sleep(duration);
+        Diary.getInstance().incAtt();
 
     }
 

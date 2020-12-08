@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public abstract class MicroService  implements Runnable {
     private final String name;
-    private Map<Message, CallbackImpl> callbackMap;
+    private Map<Class,Callback> callbackMap;
 
 
     /**
@@ -58,7 +58,7 @@ public abstract class MicroService  implements Runnable {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
-//        callback.call((E)this.ms);//probebly not right
+        callbackMap.put(type,callback);
         MessageBusImpl.getInstance().subscribeEvent(type,this);
 
     }
@@ -142,6 +142,8 @@ public abstract class MicroService  implements Runnable {
      */
     protected final void terminate() {
     	//todo: check marina syntec of terminate
+
+
     }
 
     /**
@@ -170,8 +172,12 @@ public abstract class MicroService  implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            callbackMap.get(massageFromQ).call(massageFromQ);
-                //futureToget=MessageBusImpl.getInstance().getFuture;
+            try {
+                callbackMap.get(massageFromQ.getClass()).call(massageFromQ);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //futureToget=MessageBusImpl.getInstance().getFuture;
                 //complete(massageFromQ,);
                 //todo broadcast that change "keepRun" to false
 
