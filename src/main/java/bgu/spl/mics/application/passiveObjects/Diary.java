@@ -19,6 +19,7 @@ public class Diary {
     private long R2D2Terminate;
     private long LandoTerminate;
 
+    //Singleton reference
     private  static Diary instance=null;
 
 
@@ -27,6 +28,17 @@ public class Diary {
      */
     private Diary() {
         totalAttacks = 0;
+        HanSoloFinish=System.currentTimeMillis();
+        C3POFinish=System.currentTimeMillis();
+        R2D2Deactivate=System.currentTimeMillis();
+
+
+        LeiaTerminate=System.currentTimeMillis();
+        HanSoloTerminate=System.currentTimeMillis();
+        C3POTerminate=System.currentTimeMillis();
+        R2D2Terminate=System.currentTimeMillis();
+        LandoTerminate=System.currentTimeMillis();
+
     }
 
     public static Diary getInstance(){
@@ -58,11 +70,10 @@ public class Diary {
 
     /**
      *
-     * @param leiaTerminate
      * set LeiaTerminate
      */
-    public void setLeiaTerminate(long leiaTerminate) {
-        LeiaTerminate = leiaTerminate;
+    public void setLeiaTerminate() {
+        LeiaTerminate = System.currentTimeMillis()- LeiaTerminate;
     }
 
     /**
@@ -75,11 +86,10 @@ public class Diary {
 
     /**
      *
-     * @param landoTerminate
      * set LandoTerminate
      */
-    public void setLandoTerminate(long landoTerminate) {
-        LandoTerminate = landoTerminate;
+    public void setLandoTerminate() {
+        LandoTerminate =System.currentTimeMillis()- LandoTerminate;
     }
 
     /**
@@ -92,11 +102,10 @@ public class Diary {
 
     /**
      *
-     * @param r2D2Terminate
      * set R2D2Terminate
      */
-    public void setR2D2Terminate(long r2D2Terminate) {
-        R2D2Terminate = r2D2Terminate;
+    public void setR2D2Terminate() {
+        R2D2Terminate = System.currentTimeMillis()-R2D2Terminate;
     }
 
     /**
@@ -109,11 +118,10 @@ public class Diary {
 
     /**
      *
-     * @param c3POTerminate
      * set C3POTerminate
      */
-    public void setC3POTerminate(long c3POTerminate) {
-        C3POTerminate = c3POTerminate;
+    public void setC3POTerminate() {
+        C3POTerminate = System.currentTimeMillis()-C3POTerminate;
     }
 
     /**
@@ -127,11 +135,11 @@ public class Diary {
 
     /**
      *
-     * @param hanSoloTerminate
      * set HanSoloTerminate
      */
-    public void setHanSoloTerminate(long hanSoloTerminate) {
-        HanSoloTerminate = hanSoloTerminate;
+    public void setHanSoloTerminate() {
+
+        HanSoloTerminate =System.currentTimeMillis()- HanSoloTerminate;
     }
 
     /**
@@ -144,11 +152,10 @@ public class Diary {
 
     /**
      *
-     * @param r2D2Deactivate
      * set R2D2Deactivate
      */
-    public void setR2D2Deactivate(long r2D2Deactivate) {
-        R2D2Deactivate = r2D2Deactivate;
+    public void setR2D2Deactivate() {
+        R2D2Deactivate =System.currentTimeMillis() - R2D2Deactivate;
     }
 
     /**
@@ -161,11 +168,10 @@ public class Diary {
 
     /**
      *
-     * @param c3POFinish
      * set C3POFinish
      */
-    public void setC3POFinish(long c3POFinish) {
-        C3POFinish = c3POFinish;
+    public void setC3POFinish() {
+        C3POFinish =System.currentTimeMillis() - C3POFinish;
     }
 
     /**
@@ -178,11 +184,10 @@ public class Diary {
 
     /**
      *
-     * @param hanSoloFinish
      * set HanSoloFinish
      */
-    public void setHanSoloFinish(long hanSoloFinish) {
-        HanSoloFinish = hanSoloFinish;
+    public void setHanSoloFinish() {
+        HanSoloFinish = System.currentTimeMillis()-HanSoloFinish;
     }
 
     public int getNumberOfAttacks() {
