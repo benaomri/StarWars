@@ -14,7 +14,6 @@ import java.util.Vector;
  */
 public class Ewoks {
     //Fields
-    private  int size;
     private Vector<Ewok> EwokList;
     private  static Ewoks instance=null;
 
@@ -27,7 +26,6 @@ public class Ewoks {
     private Ewoks(int numberOfEwoks)
     {
         EwokList=new Vector<>();
-        size=numberOfEwoks;
         for (int i=1;i<=numberOfEwoks;i++)
         {
             Ewok newEwok=new Ewok(i);
@@ -42,11 +40,16 @@ public class Ewoks {
             instance=new Ewoks(numberOfEwoks);
         }
         return instance;
-
     }
-    public synchronized Ewok getEwokForAtt(List<Integer> serial){
-        return null;
+    public  static Ewoks getInstance(){
+        return instance;
+    }
 
+
+
+    public Vector<Ewok> getEwokList()
+    {
+        return EwokList;
     }
 
     public void PrintEwoks()
