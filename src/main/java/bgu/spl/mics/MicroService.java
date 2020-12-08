@@ -141,8 +141,8 @@ public abstract class MicroService  implements Runnable {
      * message.
      */
     protected final void terminate() {
+        MessageBusImpl.getInstance().unregister(this);
         Thread.currentThread().interrupt();
-
     }
 
     /**
@@ -162,13 +162,15 @@ public abstract class MicroService  implements Runnable {
         Future futureToget;
         MessageBusImpl.getInstance().register(this);
         initialize();//each init call suscribe event/broadcast
+
+        //We wiil Interpt the Theread in the Terminate Function when we will get the TerminateBroadCast
         while(!Thread.currentThread().isInterrupted()){
             //Try to Get Message
             try {
                 Message massageFromQ = MessageBusImpl.getInstance().awaitMessage(this);
                 callbackMap.get(massageFromQ.getClass()).call(massageFromQ);
-
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
