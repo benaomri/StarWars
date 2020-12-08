@@ -141,8 +141,7 @@ public abstract class MicroService  implements Runnable {
      * message.
      */
     protected final void terminate() {
-    	//todo: check marina syntec of terminate
-
+        Thread.currentThread().interrupt();
 
     }
 
@@ -164,23 +163,15 @@ public abstract class MicroService  implements Runnable {
         MessageBusImpl.getInstance().register(this);
         initialize();//each init call suscribe event/broadcast
         while(!Thread.currentThread().isInterrupted()){
-            Message massageFromQ= null;
             //Try to Get Message
             try {
-                massageFromQ = MessageBusImpl.getInstance().awaitMessage(this);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //Try to do the Messeage
-            try {
+                Message massageFromQ = MessageBusImpl.getInstance().awaitMessage(this);
                 callbackMap.get(massageFromQ.getClass()).call(massageFromQ);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
-        terminate();
 
 
     }

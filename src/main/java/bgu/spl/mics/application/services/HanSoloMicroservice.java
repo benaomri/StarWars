@@ -1,5 +1,6 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.application.Main;
 
 import bgu.spl.mics.CallbackImpl;
 import bgu.spl.mics.Message;
@@ -31,7 +32,7 @@ public class HanSoloMicroservice extends MicroService {
     protected void initialize() {
         subscribeEvent(AttackEvent.class, AttackEvent::att);
         subscribeBroadcast(TerminateBroadCast.class,c -> terminate());
-
+        Main.CDL.countDown();
 
     }
 }

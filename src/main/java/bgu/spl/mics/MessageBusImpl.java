@@ -25,7 +25,7 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	 * 3. Key: Event , val: Future
 	 */
 	private Vector microServiceVector;
-	private ConcurrentHashMap<String, Vector<Class<? extends Message>>> massageBusMS;
+	private ConcurrentHashMap<String, Vector<Message>> massageBusMS;
 	private ConcurrentHashMap<Event, Vector<String>> massageBusEV;
 	private ConcurrentHashMap<Event, Future> massageBusFuture;
 	private BlockingDeque bQueue;
@@ -36,8 +36,8 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 	 */
 	private MessageBusImpl()
 	{
-		massageBusMS= new ConcurrentHashMap<>();
-		massageBusEV= new ConcurrentHashMap<>();
+		massageBusMS= new ConcurrentHashMap<>(); //We had to this when MS is register
+		massageBusEV= new ConcurrentHashMap<>(); //We had to this when MS is subscribe it
 		massageBusFuture= new ConcurrentHashMap<>();
 		bQueue=new LinkedBlockingDeque();
 
@@ -55,22 +55,25 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 		return instance;
 	}
 
-
-
+	/**
+	 * We will add the MicroService to the vector of the Event
+	 * @param type The type to subscribe to,
+	 * @param m    The subscribing micro-service.
+	 * @param <T>
+	 */
 	@Override
 	public <T> void subscribeEvent(Class<? extends Event<T>> type, MicroService m) {
-		//insert to the double hashing
-		massageBusMS.get(m.getName()).add(type);
 		massageBusEV.get(type).add(m.getName());
 
 	}
+
 
 	@Override
 	public void subscribeBroadcast(Class<? extends Broadcast> type, MicroService m) {
-
-		massageBusMS.get(m.getName()).add(type);
 		massageBusEV.get(type).add(m.getName());
 	}
+
+
 
 	@Override @SuppressWarnings("unchecked")
 	public <T> void complete(Event<T> e, T result) {
@@ -83,24 +86,29 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 
 		Vector<String>broadcastMicroS=massageBusEV.get(b);//get all microService that subscribe to the broadCast
 		for(String s:broadcastMicroS){//insert to each microservice the broadcast
-			massageBusMS.get(s).add(b.getClass());
+			massageBusMS.get(s).add(b);
 		}
 		notifyAll();//notify to all thered that is their new massage
 	}
 
-	
+	/**
+	 *
+	 * @param e     	The event to add to the queue.
+	 * @param <T>
+	 * @return
+	 */
 	@Override
 	public synchronized <T> Future sendEvent(Event<T> e) {
 		Vector<String> toRoundRobin=massageBusEV.get(e);//
 		String chosenMicro= round_robin(e,toRoundRobin);//send to round robin all microservice that subscribe to this event
-		massageBusMS.get(chosenMicro).add(e.getClass());
+		massageBusMS.get(chosenMicro).add(e);
 		notifyAll();
         return massageBusFuture.get(e);
 	}
 
 	@Override
 	public void register(MicroService m) {
-		massageBusMS.put(m.getName(),new Vector<Class<? extends Message>>());
+		massageBusMS.put(m.getName(),new Vector<Message>());
 	}
 
 	@Override
@@ -116,8 +124,8 @@ public class MessageBusImpl<microServiceVector> implements MessageBus {
 		while(massageBusMS.get(m.getName()).isEmpty()){//wait until is massage to take
 			wait();
 		}
-		return null;
-		//return  massageBusMS.get(m.getName()).remove(0);//return the first massage in queue
+//		return null;
+		return  massageBusMS.get(m.getName()).get(0);
 	}
 
 	private String  round_robin(Event e,Vector microSVector){

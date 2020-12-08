@@ -1,5 +1,7 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.application.Main;
+
 import bgu.spl.mics.Callback;
 import bgu.spl.mics.CallbackImpl;
 import bgu.spl.mics.MicroService;
@@ -24,6 +26,7 @@ public class C3POMicroservice extends MicroService {
     protected void initialize() {
         subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
         subscribeEvent(AttackEvent.class, AttackEvent::att);
+        Main.CDL.countDown();
 
 
     }
