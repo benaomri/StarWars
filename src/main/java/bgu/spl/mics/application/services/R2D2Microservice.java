@@ -26,10 +26,6 @@ public class R2D2Microservice extends MicroService {
     protected void initialize() {
         subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
         subscribeEvent(DeactivationEvent.class, DeactivationEvent::Deactive);
-
-
-
-
     }
     @Override
     protected void close()
