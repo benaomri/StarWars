@@ -1,7 +1,8 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
-import bgu.spl.mics.application.messages.DacteivationEvent;
+import bgu.spl.mics.application.messages.AttackEvent;
+import bgu.spl.mics.application.messages.DeactivationEvent;
 import bgu.spl.mics.application.messages.TerminateBroadCast;
 import bgu.spl.mics.application.passiveObjects.Diary;
 
@@ -24,7 +25,9 @@ public class R2D2Microservice extends MicroService {
     @Override
     protected void initialize() {
         subscribeBroadcast(TerminateBroadCast.class, c -> terminate());
-        subscribeEvent(DacteivationEvent.class,c -> Thread.sleep(duration));
+        subscribeEvent(DeactivationEvent.class, DeactivationEvent::Deactive);
+
+
 
 
     }
