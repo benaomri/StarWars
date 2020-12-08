@@ -21,24 +21,23 @@ public class AttackEvent implements Event<Boolean> {
         serials.addAll(otherSerials);
     }
     public void att() throws InterruptedException {
-
-        while (Ewoks.getInstance()==null)
-            wait();
-
          Vector<Ewok> EwokList=Ewoks.getInstance().getEwokList();
-
+        //Acquire
         for (int i=0;i<serials.size();i++)
         {
             int serial=serials.get(0);
             EwokList.get(serial).acquire();
         }
         Thread.sleep(duration);
-        Diary.getInstance().incAtt();
+        //Release
         for (int i=0;i<serials.size();i++)
         {
             int serial=serials.get(0);
             EwokList.get(serial).release();
         }
+
+        Diary.getInstance().incAtt();
+
 
     }
 

@@ -38,6 +38,7 @@ public class Ewoks {
         if(instance==null)
         {
             instance=new Ewoks(numberOfEwoks);
+
         }
         return instance;
     }
