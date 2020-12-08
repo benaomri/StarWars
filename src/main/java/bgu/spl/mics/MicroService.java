@@ -169,8 +169,8 @@ public abstract class MicroService  implements Runnable {
         while(!Thread.currentThread().isInterrupted()){
             //Try to Get Message
             try {
-                Message massageFromQ = MessageBusImpl.getInstance().awaitMessage(this);
-                callbackMap.get(massageFromQ.getClass()).call(massageFromQ);
+                Message msgFromQ = MessageBusImpl.getInstance().awaitMessage(this);
+                callbackMap.get(msgFromQ.getClass()).call(msgFromQ);
             }
             catch (InterruptedException e) {
                 e.printStackTrace();
@@ -183,9 +183,7 @@ public abstract class MicroService  implements Runnable {
     /**
      * The function that close the microservice
      */
-    protected void close()
-    {
+    protected abstract void close();
 
-    }
 
 }
