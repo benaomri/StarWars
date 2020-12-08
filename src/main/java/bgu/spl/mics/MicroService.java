@@ -2,6 +2,7 @@ package bgu.spl.mics;
 
 
 import javax.security.auth.callback.CallbackHandler;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Map;
  */
 public abstract class MicroService  implements Runnable {
     private final String name;
-    private Map<Class,Callback> callbackMap;
+    private HashMap<Class,Callback> callbackMap;
 
 
     /**
@@ -33,7 +34,7 @@ public abstract class MicroService  implements Runnable {
      */
     public MicroService(String name) {
         this.name=name;
-    	
+        callbackMap=new HashMap<>();
     }
 
     /**
@@ -58,9 +59,9 @@ public abstract class MicroService  implements Runnable {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
-        callbackMap.put(type,callback);
-        MessageBusImpl.getInstance().subscribeEvent(type,this);
-
+        if(!callbackMap.containsKey(type)) // We make sure we don't have it already
+            callbackMap.put(type,callback); //Add the specific CallBack to the type
+        MessageBusImpl.getInstance().subscribeEvent(type,this); //Add the MS to the event
     }
 
     /**
@@ -84,7 +85,7 @@ public abstract class MicroService  implements Runnable {
      *                 queue.
      */
     protected final <B extends Broadcast> void subscribeBroadcast(Class<B> type, Callback<B> callback) {
-        MessageBusImpl.getInstance().subscribeBroadcast(type,this);
+        MessageBusImpl.getInstance().subscribeBroadcast(type,this); //Add to Broadcast
 
     }
 
@@ -101,7 +102,6 @@ public abstract class MicroService  implements Runnable {
      * 	       			null in case no micro-service has subscribed to {@code e.getClass()}.
      */
     protected final <T> Future<T> sendEvent(Event<T> e) {
-
        return MessageBusImpl.getInstance().sendEvent(e);
     }
 
@@ -160,26 +160,23 @@ public abstract class MicroService  implements Runnable {
      */
     @Override
     public final void run() {
-        boolean keepRun=true;
         Future futureToget;
         MessageBusImpl.getInstance().register(this);
         initialize();//each init call suscribe event/broadcast
-        while(keepRun){
-
+        while(!Thread.currentThread().isInterrupted()){
             Message massageFromQ= null;
+            //Try to Get Message
             try {
                 massageFromQ = MessageBusImpl.getInstance().awaitMessage(this);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            //Try to do the Messeage
             try {
                 callbackMap.get(massageFromQ.getClass()).call(massageFromQ);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //futureToget=MessageBusImpl.getInstance().getFuture;
-                //complete(massageFromQ,);
-                //todo broadcast that change "keepRun" to false
 
 
         }
